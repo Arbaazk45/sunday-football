@@ -1,0 +1,59 @@
+<div class="page">
+  <app-page-header
+    [title]="'Welcome, ' + (session()?.fullName ?? 'Player')"
+    subtitle="Your Sunday Football at a glance"
+  />
+
+  <div class="grid-2">
+    <div class="stat-card">
+      <div class="stat-label">Upcoming match</div>
+      <div class="stat-value stat-value--text">{{ week().date }}</div>
+      @if (week().time) {
+        <p class="meta">{{ week().time }} · {{ week().venue }}</p>
+      }
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Your availability</div>
+      <div style="margin-top: 0.5rem"><app-status-badge [status]="myStatus()" /></div>
+      <a routerLink="/sunday-match" class="btn-ghost" style="margin-top: 0.75rem">Update availability</a>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ totalPlayers() }}</div>
+      <div class="stat-label">Registered players</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ confirmedCount() }}</div>
+      <div class="stat-label">Confirmed for Sunday</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.25rem">
+    <h3>Quick actions</h3>
+    <div class="row" style="margin-top: 0.75rem">
+      <a routerLink="/sunday-match" class="btn-primary">Sunday Match</a>
+      <a routerLink="/players" class="btn-secondary">View players</a>
+      <a routerLink="/teams" class="btn-secondary">Team Generator</a>
+    </div>
+  </div>
+
+  @if (teams()) {
+    <div class="card" style="margin-top: 1.25rem">
+      <h3>Latest teams</h3>
+      <p class="meta">Balance score: {{ teams()!.balanceScore | number: '1.1-1' }} (lower is better)</p>
+      <a routerLink="/teams" class="btn-ghost">View full breakdown</a>
+    </div>
+  }
+</div>
+
+<style>
+  .stat-value--text {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: var(--color-text) !important;
+  }
+  .meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0.35rem 0 0;
+  }
+</style>

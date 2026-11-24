@@ -1,0 +1,13 @@
+<p class="demo-banner">
+  Demo prototype — authentication and roles are stored in LocalStorage and are not production-secure.
+</p>
+<app-header (menuToggle)="toggleNav()" />
+<div class="shell">
+  <app-sidebar [class.shell__sidebar--open]="mobileNavOpen()" (navigate)="closeNav()" />
+  @if (mobileNavOpen()) {
+    <button type="button" class="shell__backdrop" aria-label="Close menu" (click)="closeNav()"></button>
+  }
+  <main class="shell__main container">
+    <router-outlet />
+  </main>
+</div>

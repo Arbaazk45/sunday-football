@@ -1,0 +1,61 @@
+<div class="page">
+  <app-page-header title="Profile settings" subtitle="Update your player profile" />
+
+  @if (saved()) {
+    <p class="saved">Profile saved.</p>
+  }
+
+  <form class="card stack" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label>Full name</label>
+      <input type="text" formControlName="fullName" />
+    </div>
+    <div class="form-group">
+      <label>Profile picture</label>
+      <input type="file" accept="image/*" (change)="onFile($event)" />
+    </div>
+    <div class="form-group">
+      <label>Age</label>
+      <input type="number" formControlName="age" />
+    </div>
+    <div class="form-group">
+      <label>Position</label>
+      <select formControlName="position">
+        @for (p of positions; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </select>
+      @if (form.controls.position.disabled) {
+        <p class="hint">Only administrators can change position.</p>
+      }
+    </div>
+    <div class="form-group">
+      <label>Experience (years)</label>
+      <input type="number" formControlName="yearsExperience" />
+    </div>
+    <div class="form-group">
+      <label>Skill rating</label>
+      <input type="number" formControlName="skillRating" />
+      @if (form.controls.skillRating.disabled) {
+        <p class="hint">Only administrators can change official skill rating.</p>
+      }
+    </div>
+    <div class="form-group">
+      <label>Achievements</label>
+      <textarea formControlName="achievements"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Strengths</label>
+      <input type="text" formControlName="strengths" />
+    </div>
+    <button type="submit" class="btn-primary">Save profile</button>
+  </form>
+</div>
+
+<style>
+  .saved {
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+</style>

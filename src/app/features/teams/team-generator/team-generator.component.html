@@ -1,0 +1,147 @@
+<div class="page">
+  <app-page-header
+    title="Team Generator"
+    subtitle="Balanced teams from confirmed (Available) players only"
+  />
+
+  <div class="card row" style="margin-bottom: 1rem">
+    <span>{{ confirmedCount() }} confirmed for {{ week().date }}</span>
+    @if (isAdmin()) {
+      <span class="spacer"></span>
+      <button type="button" class="btn-primary" (click)="generate()">Generate teams</button>
+      <button type="button" class="btn-secondary" (click)="regenerate()">Regenerate teams</button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="card error-box">{{ error() }}</div>
+  }
+  @if (info()) {
+    <div class="card info-box">{{ info() }}</div>
+  }
+
+  @if (teams(); as t) {
+  <div class="compare card" style="margin-bottom: 1rem">
+      <h3>Balance comparison</h3>
+      <p>Balance score: <strong>{{ t.balanceScore | number: '1.1-1' }}</strong> — lower means more even teams.</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Team A</th>
+            <th>Team B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Players</td>
+            <td>{{ t.teamA.playerIds.length }}</td>
+            <td>{{ t.teamB.playerIds.length }}</td>
+          </tr>
+          <tr>
+            <td>Total skill</td>
+            <td>{{ t.teamA.totalSkill }}</td>
+            <td>{{ t.teamB.totalSkill }}</td>
+          </tr>
+          <tr>
+            <td>Avg skill</td>
+            <td>{{ t.teamA.avgSkill | number: '1.1-1' }}</td>
+            <td>{{ t.teamB.avgSkill | number: '1.1-1' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    @if (substituteName(); as sub) {
+      <div class="card sub-banner">Substitute (odd player count): <strong>{{ sub }}</strong></div>
+    }
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Team A</h3>
+        <p class="meta">Skill total {{ t.teamA.totalSkill }} · avg {{ t.teamA.avgSkill | number: '1.1-1' }}</p>
+        <ul class="roster">
+          @for (p of playersInTeam(t.teamA); track p.id) {
+            <li>
+              <app-player-avatar [name]="p.fullName" [avatarUrl]="p.avatarUrl" />
+              {{ p.fullName }} — {{ p.position }} ({{ p.skillRating }})
+            </li>
+          }
+        </ul>
+        <h4>Positions</h4>
+        <ul class="pos-list">
+          @for (row of positionRows(t.teamA.positionCounts); track row.pos) {
+            <li>{{ row.pos }}: {{ row.n }}</li>
+          }
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Team B</h3>
+        <p class="meta">Skill total {{ t.teamB.totalSkill }} · avg {{ t.teamB.avgSkill | number: '1.1-1' }}</p>
+        <ul class="roster">
+          @for (p of playersInTeam(t.teamB); track p.id) {
+            <li>
+              <app-player-avatar [name]="p.fullName" [avatarUrl]="p.avatarUrl" />
+              {{ p.fullName }} — {{ p.position }} ({{ p.skillRating }})
+            </li>
+          }
+        </ul>
+        <h4>Positions</h4>
+        <ul class="pos-list">
+          @for (row of positionRows(t.teamB.positionCounts); track row.pos) {
+            <li>{{ row.pos }}: {{ row.n }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  } @else {
+    <app-empty-state
+      title="No teams yet"
+      description="Confirm availability first. Admins can generate balanced teams here."
+    />
+  }
+</div>
+
+<style>
+  .meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.75rem;
+  }
+  .roster {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .roster li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .pos-list {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+    font-size: 0.85rem;
+  }
+  .error-box {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+    margin-bottom: 1rem;
+  }
+  .info-box {
+    background: var(--color-primary-light);
+    margin-bottom: 1rem;
+  }
+  .sub-banner {
+    margin-bottom: 1rem;
+    background: var(--color-warning-bg);
+  }
+  h4 {
+    margin: 1rem 0 0.35rem;
+    font-size: 0.9rem;
+  }
+</style>

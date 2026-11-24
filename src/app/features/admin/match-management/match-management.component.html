@@ -1,0 +1,45 @@
+<div class="page">
+  <app-page-header title="Match management" subtitle="Sunday time, venue and reminders" />
+
+  @if (saved()) {
+    <p class="saved">Match settings saved.</p>
+  }
+
+  <form class="card stack" [formGroup]="form" (ngSubmit)="save()">
+    <h3>This Sunday</h3>
+    <div class="form-group">
+      <label>Match time</label>
+      <input type="time" formControlName="time" />
+    </div>
+    <div class="form-group">
+      <label>Venue</label>
+      <input type="text" formControlName="venue" />
+    </div>
+
+    <h3>Defaults for new weeks</h3>
+    <div class="form-group">
+      <label>Default time</label>
+      <input type="time" formControlName="defaultTime" />
+    </div>
+    <div class="form-group">
+      <label>Default venue</label>
+      <input type="text" formControlName="defaultVenue" />
+    </div>
+
+    <div class="row">
+      <button type="submit" class="btn-primary">Save</button>
+      <button type="button" class="btn-secondary" (click)="shareWhatsApp()">WhatsApp reminder</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .saved {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+  h3 {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+</style>

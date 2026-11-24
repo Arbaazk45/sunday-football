@@ -1,0 +1,38 @@
+<div class="page">
+  <app-page-header title="Match history" subtitle="Previous Sundays (stored in this browser)" />
+
+  <div class="card" style="margin-bottom: 1rem">
+    <h3>Current week</h3>
+    <p>{{ current().date }} — {{ current().availability.filter(a => a.status === 'available').length }} confirmed</p>
+    @if (current().teams) {
+      <p class="meta">
+        Teams generated · balance {{ current().teams!.balanceScore | number: '1.1-1' }}
+      </p>
+    }
+  </div>
+
+  @if (past().length === 0) {
+    <app-empty-state title="No past matches" description="Earlier weeks appear here after Sunday passes." />
+  } @else {
+    @for (w of past(); track w.id) {
+      <div class="card" style="margin-bottom: 0.75rem">
+        <h3>{{ w.date }}</h3>
+        <p class="meta">
+          {{ w.availability.filter(a => a.status === 'available').length }} played ·
+          {{ w.availability.filter(a => a.status === 'unavailable').length }} out
+        </p>
+        @if (w.teams) {
+          <p>Team A skill {{ w.teams.teamA.totalSkill }} vs Team B {{ w.teams.teamB.totalSkill }}</p>
+        }
+      </div>
+    }
+  }
+</div>
+
+<style>
+  .meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

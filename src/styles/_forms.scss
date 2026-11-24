@@ -1,0 +1,58 @@
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    color: var(--color-text);
+  }
+
+  .hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .error {
+    font-size: 0.8rem;
+    color: var(--color-danger);
+    margin-top: 0.25rem;
+  }
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='time'],
+input[type='file'],
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  background: var(--color-surface);
+
+  &:focus {
+    outline: 2px solid var(--color-primary-light);
+    border-color: var(--color-primary);
+  }
+
+  &.invalid {
+    border-color: var(--color-danger);
+  }
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.field-error {
+  border-color: var(--color-danger) !important;
+}

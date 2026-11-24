@@ -1,0 +1,16 @@
+<header class="app-header">
+  <button type="button" class="menu-btn" aria-label="Open menu" (click)="menuToggle.emit()">☰</button>
+  <div class="brand">
+    <span class="brand__mark">⚽</span>
+    <span class="brand__text">Sunday Football</span>
+  </div>
+  @if (session(); as s) {
+    <div class="user">
+      <span class="user__name">{{ s.fullName }}</span>
+      @if (s.role === 'admin') {
+        <span class="badge-admin">Admin</span>
+      }
+      <button type="button" class="btn-secondary btn-sm" (click)="logout()">Log out</button>
+    </div>
+  }
+</header>

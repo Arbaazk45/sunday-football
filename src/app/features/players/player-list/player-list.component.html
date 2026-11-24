@@ -1,0 +1,56 @@
+<div class="page">
+  <app-page-header title="Players" subtitle="Everyone in your Sunday group" />
+
+  @if (isAdmin()) {
+    <div class="row" style="margin-bottom: 1rem">
+      <a routerLink="/players/manage" class="btn-primary">Add player (admin)</a>
+    </div>
+  }
+
+  <div class="table-wrap card" style="padding: 0">
+    <table class="data-table data-table--responsive">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Age</th>
+          <th>Position</th>
+          <th>Experience</th>
+          <th>Skill</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of players(); track p.id) {
+          <tr>
+            <td data-label="Player">
+              <span class="player-cell">
+                <app-player-avatar [name]="p.fullName" [avatarUrl]="p.avatarUrl" />
+                <span>
+                  {{ p.fullName }}
+                  @if (isPlayerAdmin(p.id)) {
+                    <app-admin-badge />
+                  }
+                </span>
+              </span>
+            </td>
+            <td data-label="Age">{{ p.age }}</td>
+            <td data-label="Position">{{ p.position }}</td>
+            <td data-label="Experience">{{ p.yearsExperience }} yrs</td>
+            <td data-label="Skill">{{ p.skillRating }}/10</td>
+            <td data-label="">
+              <a [routerLink]="['/players', p.id]">View</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .player-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+</style>

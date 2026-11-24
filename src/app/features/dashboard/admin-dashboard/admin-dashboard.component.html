@@ -1,0 +1,57 @@
+<div class="page">
+  <app-page-header title="Admin dashboard" subtitle="Manage players, availability and teams" />
+
+  <div class="grid-3">
+    <div class="stat-card">
+      <div class="stat-value">{{ totalPlayers() }}</div>
+      <div class="stat-label">Registered players</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ counts().available }}</div>
+      <div class="stat-label">Confirmed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ counts().pending }}</div>
+      <div class="stat-label">Pending responses</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ counts().unavailable }}</div>
+      <div class="stat-label">Unavailable</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.25rem">
+    <h3>Admin actions</h3>
+    <div class="row" style="margin-top: 0.75rem">
+      <a routerLink="/players/manage" class="btn-secondary">Manage players</a>
+      <a routerLink="/admin/match" class="btn-secondary">Match details</a>
+      <a routerLink="/teams" class="btn-secondary">Team generator</a>
+      <button type="button" class="btn-primary" (click)="generateTeams()">Generate teams now</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1rem">
+    <h3>WhatsApp reminder</h3>
+    <p class="meta">Opens WhatsApp with a pre-filled match message (manual send).</p>
+    <div class="row" style="margin-top: 0.5rem">
+      <button type="button" class="btn-primary" (click)="shareWhatsApp()">Share via WhatsApp</button>
+      <button type="button" class="btn-secondary" (click)="copyMessage()">Copy message</button>
+    </div>
+    @if (copyHint()) {
+      <p class="success">{{ copyHint() }}</p>
+    }
+  </div>
+</div>
+
+<style>
+  .meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .success {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    margin: 0.5rem 0 0;
+  }
+</style>

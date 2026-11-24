@@ -1,0 +1,79 @@
+<div class="page">
+  <app-page-header
+    title="Sunday Match"
+    [subtitle]="week().date + (week().time ? ' · ' + week().time : '') + (week().venue ? ' · ' + week().venue : '')"
+  />
+
+  <div class="grid-2" style="margin-bottom: 1.25rem">
+    <div class="stat-card">
+      <div class="stat-value">{{ confirmedTotal() }}</div>
+      <div class="stat-label">Confirmed players</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{ pendingTotal() }}</div>
+      <div class="stat-label">Pending responses</div>
+    </div>
+  </div>
+
+  @for (status of statuses; track status) {
+    <section class="card" style="margin-bottom: 1rem">
+      <h3>
+        @switch (status) {
+          @case ('available') { Available }
+          @case ('unavailable') { Not available }
+          @case ('pending') { Not sure }
+        }
+        ({{ playersForStatus(status).length }})
+      </h3>
+      <ul class="player-list">
+        @for (p of playersForStatus(status); track p.id) {
+          <li class="player-list__item">
+            <app-player-avatar [name]="p.fullName" [avatarUrl]="p.avatarUrl" />
+            <span>{{ p.fullName }}</span>
+            <app-status-badge [status]="status" />
+            @if (canEdit(p.id)) {
+              <div class="actions">
+                <button type="button" class="btn-ghost" (click)="setStatus(p.id, 'available')">Available</button>
+                <button type="button" class="btn-ghost" (click)="setStatus(p.id, 'unavailable')">No</button>
+                <button type="button" class="btn-ghost" (click)="setStatus(p.id, 'pending')">Not sure</button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</div>
+
+<style>
+  .player-list {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .player-list__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    width: 100%;
+    @media (min-width: 640px) {
+      width: auto;
+      margin-left: auto;
+    }
+  }
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+</style>

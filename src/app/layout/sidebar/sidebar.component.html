@@ -1,0 +1,14 @@
+<nav class="sidebar">
+  <a routerLink="/dashboard" routerLinkActive="active" (click)="onNav()">Dashboard</a>
+  <a routerLink="/players" routerLinkActive="active" (click)="onNav()">Players</a>
+  <a routerLink="/sunday-match" routerLinkActive="active" (click)="onNav()">Sunday Match</a>
+  <a routerLink="/teams" routerLinkActive="active" (click)="onNav()">Team Generator</a>
+  <a routerLink="/match-history" routerLinkActive="active" (click)="onNav()">Match History</a>
+  <a routerLink="/profile" routerLinkActive="active" (click)="onNav()">Profile</a>
+  @if (isAdmin()) {
+    <div class="sidebar__section">Administration</div>
+    <a routerLink="/admin" routerLinkActive="active" (click)="onNav()">Admin Dashboard</a>
+    <a routerLink="/admin/match" routerLinkActive="active" (click)="onNav()">Match Management</a>
+    <a routerLink="/players/manage" routerLinkActive="active" (click)="onNav()">Player Management</a>
+  }
+</nav>

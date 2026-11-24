@@ -1,0 +1,41 @@
+<div class="page">
+  @if (player(); as p) {
+    <div class="row" style="margin-bottom: 1rem">
+      <app-player-avatar [name]="p.fullName" [avatarUrl]="p.avatarUrl" />
+      <div>
+        <app-page-header [title]="p.fullName" [subtitle]="p.position" />
+        @if (isPlayerAdmin(p.id)) {
+          <app-admin-badge />
+        }
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card stack">
+        <div><strong>Age</strong> {{ p.age }}</div>
+        <div><strong>Experience</strong> {{ p.yearsExperience }} years</div>
+        <div><strong>Skill rating</strong> {{ p.skillRating }}/10</div>
+        <div><strong>Email</strong> {{ p.email }}</div>
+      </div>
+      <div class="card stack">
+        <div>
+          <strong>Strengths</strong>
+          <p>{{ p.strengths }}</p>
+        </div>
+        <div>
+          <strong>Achievements</strong>
+          <p>{{ p.achievements || '—' }}</p>
+        </div>
+      </div>
+    </div>
+
+    @if (isAdmin()) {
+      <div class="row" style="margin-top: 1rem">
+        <a [routerLink]="['/players/manage', p.id]" class="btn-primary">Edit player</a>
+      </div>
+    }
+  } @else {
+    <app-empty-state title="Player not found" description="This profile may have been removed." />
+    <a routerLink="/players" class="btn-secondary">Back to players</a>
+  }
+</div>
